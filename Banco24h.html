@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco - 24h</title>
+</head>
+<style>
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+    color: black;
+    border: none;
+}
+body {
+    background-color: white;
+}
+.header {
+    color: red;
+}
+.container {
+    width: 80%;
+    margin: auto;
+}
+.header .container{
+    display: flex;
+    justify-content: space-between;
+}
+h1 {
+    margin-top: 20px;
+    color: red;
+    padding: 5px 15px;
+}
+.background {
+    height: 700px;
+    padding: 5vh;
+    background-image: linear-gradient( white, red);
+    background-size: cover;
+}
+
+.box1 {
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 100px;
+}
+.box1 h2{
+    margin-top: 20px;
+    font-size: 20px;
+}
+.half-box1 {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+.half-box1 button {
+    margin-top: 20px;
+    background-color: orangered;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 170px;
+    align-self: center;
+    cursor:pointer;
+}
+.half-box1 button:hover{
+    background: red;
+}
+.half-box1 input {
+    padding: 10px 15px;
+    text-align: center;
+    border: 2px solid rgb(0, 119, 255);
+    border-radius: 10px;
+}
+span{
+    margin-top:15px;
+}
+.box2 {
+    background-color: white;
+    width: 400px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 100px;
+}
+.box2 h2{
+    margin-top: 20px;
+    font-size: 20px;
+}
+.half-box2 {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+.half-box2 button {
+    margin-top: 20px;
+    background-color: orangered;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 170px;
+    align-self: center;
+    cursor:pointer;
+}
+.half-box2 button:hover{
+    background: red;
+}
+.half-box2 input {
+    padding: 10px 15px;
+    text-align: center;
+    border: 2px solid rgb(0, 119, 255);
+    border-radius: 10px;
+}
+</style>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Banco - 24h</h1>
+        </div>
+    </div>
+    <div class="background">
+        <div class="container">
+            <div class="box1" id="box1">
+                <h2>Inserir a quantidade de cédulas</h2>
+                <div class="half-box1">
+                    <span>Quantidades de cédulas de R$10.00:</span>
+                    <input id="nn10" type="text" placeholder="Digite a quantidade de notas" autofocus>
+
+                    <span>Quantidades de cédulas de R$50.00:</span>
+                    <input id="nn50" type="text" placeholder="Digite a quantidade de notas">
+
+                    <span>Quantidades de cédulas de R$100.00:</span>
+                    <input id="nn100" type="text" placeholder="Digite a quantidade de notas">
+
+                    <button onclick="mostrar1()">Iniciar</button>
+            </div>
+        </div>
+        <div class="box2" id="box2">
+            <h2>Notas disponíveis são de 10, 50 e 100</h2>
+            <div class="half-box2">
+                <span>Quantidade que deseja sacar:</span>
+                <input id="valor" type="text" placeholder="Digite o valor do saque" autofocus>
+
+                <button onclick="mostrar2()">Solicitar saque</button>
+            </div>
+            <div id="msg"></div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var n10 = 0
+    var n50 = 0
+    var n100 = 0
+    var resto = 0
+    var usar100 = 0
+    var usar50 = 0
+    var usar10 = 0
+    var faltou = 0
+    box2.style.display = "none"
+    function mostrar1(){
+        n10 = Number(nn10.value)
+        n50 = Number(nn50.value)
+        n100 = Number(nn100.value)
+        
+        box2.style.display = "flex"
+        box1.style.display = "none" 
+    }
+    function mostrar2(){
+        var Valor = Number(valor.value)
+        var total = (n10*10)+(n50*50)+(n100*100)
+
+        if (Valor <= 0){
+            alert(`Não é possével sacar 0 ou menos`)
+        } else if (Valor > total){
+            alert(`Montante disponível não atende a solicitação`)
+        } else if (Valor%10 == 0){
+
+            resto = Valor%100
+            usar100 = Math.floor(Valor/100)
+            
+            if (usar100 > n100){
+
+                faltou = usar100-n100
+                usar100 = n100
+                resto = resto+(faltou*100)
+                
+                
+
+            }
+            usar50 = Math.floor(resto/50)
+            resto = resto%50
+            if (usar50 > n50){
+
+                faltou = usar50-n50
+                usar50 = n50
+                resto = resto+(faltou*50)
+
+
+            }
+            usar10 = Math.floor(resto/10)
+            resto = resto%10
+            if (usar10 > n10){
+                alert(`Valor não possível devido as notas disponíveis`)
+                
+            }else {
+
+                n100 -= usar100
+                n50 -= usar50
+                n10 -= usar10
+
+                msg.innerHTML = `Retire o dinheiro no local indicado`
+
+            }
+        } else {
+            alert(`Valor não possível devido as notas disponíveis`)
+        }
+    }
+</script>
